@@ -1,5 +1,5 @@
 import React from 'react'
-import {sortByItemCount, sortByItemNames, sortByDate} from './sortOrders';
+import {sortByItemCount, sortByItemNames, sortByDate, sortOrders} from './sortOrders';
 
 describe('sortByItemCount function', () => {
 	it('orders are null', () => {
@@ -186,7 +186,7 @@ describe('sortByItemNames function', () => {
 			items: ['item1', 'item2'],
 		};
 		const result = sortByItemNames(order1, order2);
-		expect(result).toBe(0);
+		expect(result).toBe(1);
 	})
 
 	it('second order length is bigger and second order items include all first order items', () => {
@@ -198,7 +198,7 @@ describe('sortByItemNames function', () => {
 			items: ['item1', 'item2', 'item3'],
 		};
 		const result = sortByItemNames(order1, order2);
-		expect(result).toBe(0);
+		expect(result).toBe(-1);
 	})
 
 	it('same items length, first bigger then second', () => {
