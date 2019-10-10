@@ -1,5 +1,5 @@
 import React from 'react'
-import {sortByItemCount, sortByItemNames} from './sortOrders';
+import {sortByItemCount, sortByItemNames, sortByDate} from './sortOrders';
 
 describe('sortByItemCount function', () => {
 	it('orders are null', () => {
@@ -66,7 +66,7 @@ describe('sortByItemCount function', () => {
 		expect(result).toBe(0)
 	})
 
-	it('first order iisn\'t object', () => {
+	it('first order isn\'t object', () => {
 		const order = {
 			items: ['item1', 'item2'],
 		};
@@ -310,5 +310,165 @@ describe('sortByItemNames function', () => {
 		const result = sortByItemNames(order1, order2);
 		expect(result).toBe(0);
 	});
+
+	it('compare all items', () => {
+		const order1 = {
+			items: ['aaa', 'bbb'],
+		};
+
+		const order2 = {
+			items: ['bbb', 'aaa'],
+		};
+		const result = sortByItemNames(order1, order2);
+		expect(result).toBe(-1);
+	});
 });
 
+describe('sortByDate function', () => {
+	it('orders are null', () => {
+		const result = sortByDate(null, null);
+		expect(result).toEqual(0);
+	});
+
+	it('same date', () => {
+		const order = {
+			date: 1,
+		};
+		const result = sortByDate(order, order);
+		expect(result).toBe(0);
+	});
+
+	it('first order is null', () => {
+		const order = {
+			date: 1,
+		};
+		const result = sortByDate(null, order);
+		expect(result).toBe(0);
+	})
+
+	it('second order is null', () => {
+		const order = {
+			date: 1,
+		};
+		const result = sortByDate(order, null);
+		expect(result).toBe(0);
+	})
+
+	it('first order date is bigger', () => {
+		const order1 = {
+			date: 2,
+		};
+
+		const order2 = {
+			date: 1,
+		};
+		const result = sortByDate(order1, order2);
+		expect(result).toBe(-1);
+	})
+
+	it('second order length is bigger', () => {
+		const order1 = {
+			date: 1,
+		};
+
+		const order2 = {
+			date: 2,
+		};
+		const result = sortByDate(order1, order2);
+		expect(result).toBe(1);
+	})
+
+	it('orders aren\'t object', () => {
+		const result = sortByDate(1, 2);
+		expect(result).toBe(0)
+	})
+
+	it('first order isn\'t object', () => {
+		const order = {
+			date: 1,
+		};
+		const result = sortByDate(1, order)
+		expect(result).toBe(0)
+	})
+
+	it('first order isn\'t object', () => {
+		const order = {
+			date: 1,
+		};
+		const result = sortByDate(order, 1)
+		expect(result).toBe(0)
+	})
+
+	it('orders don\'t have date fields', () => {
+		const result = sortByDate({}, {})
+		expect(result).toBe(0)
+	})
+
+	it('first order doesn\'t have date field', () => {
+		const order = {
+			date: 1,
+		}
+		const result = sortByDate({}, order)
+		expect(result).toBe(0)
+	})
+
+	it('second order doesn\'t have date field', () => {
+		const order = {
+			date: 1,
+		}
+		const result = sortByDate(order, {})
+		expect(result).toBe(0)
+	})
+
+	it('same negative dates', () => {
+		const order = {
+			date: -1,
+		}
+		const result = sortByDate(order, order)
+		expect(result).toBe(0)
+	})
+
+	it('negative dates, first bigger', () => {
+		const order1 = {
+			date: -1,
+		}
+		const order2 = {
+			date: -2,
+		}
+		const result = sortByDate(order1, order2)
+		expect(result).toBe(-1)
+	})
+
+	it('negative dates, second bigger', () => {
+		const order1 = {
+			date: -2,
+		}
+		const order2 = {
+			date: -1,
+		}
+		const result = sortByDate(order1, order2)
+		expect(result).toBe(1)
+	})
+
+	it('first date is zero', () => {
+		const order1 = {
+			date: 0,
+		}
+		const order2 = {
+			date: 1,
+		}
+		const result = sortByDate(order1, order2)
+		expect(result).toBe(1)
+	})
+
+	it('second date is zero', () => {
+		const order1 = {
+			date: 1,
+		}
+		const order2 = {
+			date: 0,
+		}
+		const result = sortByDate(order1, order2)
+		expect(result).toBe(-1)
+	})
+});
