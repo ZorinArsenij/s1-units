@@ -1,5 +1,5 @@
 import React from 'react'
-import {sortByItemCount, sortByItemNames, sortByDate, sortOrders} from './sortOrders';
+import {sortByItemCount, sortByItemNames, sortByDate, sortOrders, sortTypes} from './sortOrders';
 
 describe('sortByItemCount function', () => {
 	it('orders are null', () => {
@@ -471,4 +471,106 @@ describe('sortByDate function', () => {
 		const result = sortByDate(order1, order2)
 		expect(result).toBe(-1)
 	})
+});
+
+describe('sortOrders function', () => {
+	it('sortType is null', () => {
+		const orders = [
+			{
+				date: 1,
+				items: ['2'],
+			},
+			{
+				date: 2,
+				items: ['1'],
+			}
+		];
+		const expected = [
+			{
+				date: 1,
+				items: ['2'],
+			},
+			{
+				date: 2,
+				items: ['1'],
+			}
+		];
+		sortOrders(orders, sortByItemNames);
+		expect(orders).toEqual(expected);
+	});
+
+	it('sortType is sortByDate', () => {
+		const orders = [
+			{
+				date: 1,
+				items: ['2'],
+			},
+			{
+				date: 2,
+				items: ['1'],
+			}
+		];
+		const expected = [
+			{
+				date: 2,
+				items: ['1'],
+			},
+			{
+				date: 1,
+				items: ['2'],
+			}
+		];
+		sortOrders(orders, sortTypes.DATE);
+		expect(orders).toEqual(expected);
+	});
+
+	it('sortType is sortByItemCount', () => {
+		const orders = [
+			{
+				date: 2,
+				items: ['1', '2'],
+			},
+			{
+				date: 1,
+				items: ['2'],
+			}
+		];
+		const expected = [
+			{
+				date: 1,
+				items: ['2'],
+			},
+			{
+				date: 2,
+				items: ['1', '2'],
+			}
+		];
+		sortOrders(orders, sortTypes.COUNT);
+		expect(orders).toEqual(expected);
+	});
+
+	it('sortType is sortByItemNames', () => {
+		const orders = [
+			{
+				date: 2,
+				items: ['2'],
+			},
+			{
+				date: 1,
+				items: ['1'],
+			}
+		];
+		const expected = [
+			{
+				date: 1,
+				items: ['1'],
+			},
+			{
+				date: 2,
+				items: ['2'],
+			},
+		];
+		sortOrders(orders, sortTypes.ITEM_NAMES);
+		expect(orders).toEqual(expected);
+	});
 });
