@@ -53,4 +53,19 @@ describe('Order component', () => {
     wrapper.setProps({order: order})
     expect(wrapper.find(".Order-items").children()).toHaveLength(0)
   });
+
+  it('shop name render', () => {
+    const order = {
+        shop: 'shop',
+        date: 123321,
+        items: [
+            'item1',
+            'item2',
+            'item3',
+        ]
+    };
+
+    wrapper.setProps({order: order})
+    expect(wrapper.find(".Order-header").contains('1 января, чт, 1970 год')).toBeTruthy();
+  });
 });
